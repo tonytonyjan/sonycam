@@ -1,0 +1,3 @@
+#!/usr/bin/env ruby
+require 'sonycam/cli'
+Sonycam::CLI.start(ARGV)
