@@ -5,7 +5,7 @@ module Sonycam
   module Scanner
     extend self
     # returns array of device description XML URL
-    def scan timeout: 10
+    def scan ip = nil, timeout: 10
       m_search = <<-EOS
 M-SEARCH * HTTP/1.1\r
 HOST: 239.255.255.250:1900\r
@@ -14,7 +14,8 @@ MX: #{timeout}\r
 ST: urn:schemas-sony-com:service:ScalarWebAPI:1\r
 \r
 EOS
-      addresses = Socket.ip_address_list.reject{ |a| a.ipv4_loopback? || a.ipv6_loopback? || a.ipv6_linklocal? }
+
+      addresses = ip ? Array(Addrinfo.ip(ip)) : Socket.ip_address_list.reject{ |a| a.ipv4_loopback? || a.ipv6_loopback? || a.ipv6_linklocal? }
       locations = []
       addresses.map do |addr_info|
         Thread.new do
@@ -28,7 +29,6 @@ EOS
               locations << headers['LOCATION'] if headers['ST'] == 'urn:schemas-sony-com:service:ScalarWebAPI:1'
             end
           rescue Timeout::Error
-            puts "timeout: #{addr_info.ip_address}"
           rescue
             puts $!.inspect, $@
           end
