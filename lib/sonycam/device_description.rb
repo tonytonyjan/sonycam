@@ -10,14 +10,14 @@ class DeviceDescription
     @camera_name = @doc.at_xpath('//xmlns:friendlyName').content
     @api_url_hash = {}
     @doc.xpath('//av:X_ScalarWebAPI_Service', av: 'urn:schemas-sony-com:av').each do |node|
-      type = node.at_xpath('//av:X_ScalarWebAPI_ServiceType', av: 'urn:schemas-sony-com:av').content
-      url = node.at_xpath('//av:X_ScalarWebAPI_ActionList_URL', av: 'urn:schemas-sony-com:av').content
+      type = node.at_xpath('av:X_ScalarWebAPI_ServiceType', av: 'urn:schemas-sony-com:av').content
+      url = node.at_xpath('av:X_ScalarWebAPI_ActionList_URL', av: 'urn:schemas-sony-com:av').content
       @api_url_hash[type.to_sym] = url
     end
   end
 
   # type: :guide, :system, :accessControl, :camera
-  def api_url type
+  def api_url type = :camera
     # Hush, it's a secret, don't tell anyone.
     if @camera_name == 'DSC-RX100M2'
       url = @api_url_hash[type].sub('sony', 'camera')
