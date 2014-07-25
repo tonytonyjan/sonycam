@@ -1,7 +1,7 @@
 require 'net/http'
-require 'packet'
+require 'sonycam/packet'
 
-class Liveview
+module Liveview
   extend self
   def stream liveview_url
     uri = URI(liveview_url)

@@ -20,10 +20,19 @@ module Sonycam
       puts api.request(:getAvailableApiList)['result'].first
     end
 
-    desc 'api', 'Send API request'
+    desc 'api METHOD', 'Send API request'
     def api method, *params
       api = API.new DeviceDescription.new(DD_PATH).api_url(:camera)
-      jj api.request(method, params)
+      jj api.request(method, *params)
+    end
+
+    desc 'liveview', 'Start Liveview and output to STDOUT'
+    def liveview
+      api = API.new DeviceDescription.new(DD_PATH).api_url(:camera)
+      liveview_url = api.request('startLiveview')['result'][0]
+      Liveview.stream(liveview_url) do |packet|
+        puts packet[:payload_data][:jpeg_data]
+      end
     end
   end
 end
