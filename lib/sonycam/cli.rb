@@ -20,7 +20,7 @@ module Sonycam
       puts api.request(:getAvailableApiList)['result'].first.select{|method| method =~ /#{query}/i }
     end
 
-    desc 'api METHOD', 'Send API request'
+    desc 'api METHOD PARAMS', 'Send API request'
     def api method, *params
       api = API.new DeviceDescription.new(DD_PATH).api_url(:camera)
       jj api.request(method, *params)
