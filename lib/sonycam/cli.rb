@@ -9,7 +9,7 @@ module Sonycam
     desc 'scan', 'Discover devices'
     def scan
       location = Scanner.scan.first
-      puts "Find location: #{location}"
+      puts "Found location: #{location}"
       File.write File.join(DD_PATH), open(location).read
       puts "Device description file saved to #{DD_PATH}"
     end
