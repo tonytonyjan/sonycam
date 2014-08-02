@@ -16,7 +16,7 @@ class DeviceDescription
     end
   end
 
-  # type: :guide, :system, :accessControl, :camera
+  # type: :camera, :system, :guide
   def api_url type = :camera
     # Hush, it's a secret, don't tell anyone.
     if @camera_name == 'DSC-RX100M2'
