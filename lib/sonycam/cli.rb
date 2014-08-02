@@ -15,8 +15,10 @@ module Sonycam
     end
 
     desc 'list [QUERY]', 'List all API or search'
-    def list query
-      puts api_client.request(:getAvailableApiList)['result'].first.select{|method| method =~ /#{query}/i }
+    def list query = nil
+      apis = api_client.request(:getAvailableApiList)['result'].first
+      apis.select!{|method| method =~ /#{query}/i } if query
+      puts apis
     end
 
     desc 'api method [PARAMETER ...]', 'Send API request'
