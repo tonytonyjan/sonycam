@@ -14,10 +14,10 @@ module Sonycam
       puts "Device description file saved to #{DD_PATH}"
     end
 
-    desc 'list', 'List all API'
-    def list
+    desc 'list QUERY', 'List all API or search'
+    def list query
       api = API.new DeviceDescription.new(DD_PATH).api_url(:camera)
-      puts api.request(:getAvailableApiList)['result'].first
+      puts api.request(:getAvailableApiList)['result'].first.select{|method| method =~ /#{query}/i }
     end
 
     desc 'api METHOD', 'Send API request'
