@@ -6,25 +6,25 @@ module Sonycam
   class CLI < Thor
     DD_PATH = File.join(ENV['HOME'], '.sonycam')
 
-    desc 'scan', 'Discover devices'
-    def scan
-      location = Scanner.scan.first
+    desc 'scan [IP]', 'Discover devices'
+    def scan ip = nil
+      location = Scanner.scan(ip).first
       puts "Found location: #{location}"
       File.write File.join(DD_PATH), open(location).read
       puts "Device description file saved to #{DD_PATH}"
     end
 
-    desc 'list QUERY', 'List all API or search'
+    desc 'list [QUERY]', 'List all API or search'
     def list query
       puts api_client.request(:getAvailableApiList)['result'].first.select{|method| method =~ /#{query}/i }
     end
 
-    desc 'api METHOD PARAMS', 'Send API request'
+    desc 'api method [PARAMETER ...]', 'Send API request'
     def api method, *params
       jj api_client.request(method, *params)
     end
 
-    desc 'liveview', 'Start Liveview and output to STDOUT'
+    desc 'liveview', 'Start liveview and output to STDOUT, it should be used with pipe'
     def liveview
       liveview_url = api_client.request('startLiveview')['result'][0]
       Liveview.stream(liveview_url) do |packet|
