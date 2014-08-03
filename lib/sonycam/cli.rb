@@ -7,6 +7,15 @@ module Sonycam
     DD_PATH = File.join(ENV['HOME'], '.sonycam')
 
     desc 'scan [IP]', 'Discover devices'
+    long_desc <<-LONGDESC
+    Send discovery requests (SSDP M-SEARCH), fetching UPnP device description into `$HOME/.sonycam`.
+
+    A specific IP can be set to bind, for example:
+
+    $ sonycam scan 10.0.0.1
+
+    By default, it binds each local IP address, and uses the first one found.
+    LONGDESC
     def scan ip = nil
       location = Scanner.scan(ip).first
       puts "Found location: #{location}"
@@ -14,7 +23,12 @@ module Sonycam
       puts "Device description file saved to #{DD_PATH}"
     end
 
-    desc 'list [QUERY]', 'List all API or search'
+    desc 'list [QUERY]', 'List API methods'
+    long_desc <<-LONGDESC
+    List or search available API methods, for example, to search API where name contains "act"
+
+    $ sonycam list act
+    LONGDESC
     def list query = nil
       apis = api_client.request(:getAvailableApiList)['result'].first
       apis.select!{|method| method =~ /#{query}/i } if query
