@@ -13,6 +13,7 @@ A Sony Camera Remote API wrapper.
 Record to mp4:
 
     $ sonycam liveview | ffmpeg -f image2pipe -c mjpeg -i pipe:0 -codec copy liveview.mp4
+    $ open examples/index.html
 
 ffserver Stream:
 

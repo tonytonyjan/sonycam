@@ -1,8 +1,8 @@
 require 'sinatra'
 require 'sonycam'
-
+include Sonycam
 DD_PATH = File.join(ENV['HOME'], '.sonycam')
-api_client = Sonycam::API.new DeviceDescription.new(DD_PATH).api_url(:camera)
+api_client = API.new DeviceDescription.new(DD_PATH).api_url(:camera)
 
 get '/liveview.jpg' do
   boundary = 'i_love_ruby'
