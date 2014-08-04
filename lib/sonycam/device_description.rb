@@ -1,18 +1,17 @@
-require 'nokogiri'
+require 'rexml/document'
 require 'open-uri'
 
 module Sonycam
   class DeviceDescription
     attr_reader :doc
 
-    # document: String or Nokogiri::XML::Node
     def initialize document
-      @doc = Nokogiri::XML(open(document))
-      @camera_name = @doc.at_xpath('//xmlns:friendlyName').content
+      @doc = REXML::Document.new(open(document))
+      @camera_name = REXML::XPath.first(@doc, "//xmlns:friendlyName").text
       @api_url_hash = {}
-      @doc.xpath('//av:X_ScalarWebAPI_Service', av: 'urn:schemas-sony-com:av').each do |node|
-        type = node.at_xpath('av:X_ScalarWebAPI_ServiceType', av: 'urn:schemas-sony-com:av').content
-        url = node.at_xpath('av:X_ScalarWebAPI_ActionList_URL', av: 'urn:schemas-sony-com:av').content
+      REXML::XPath.each(@doc, '//av:X_ScalarWebAPI_Service') do |element|
+        type = REXML::XPath.first(element, 'av:X_ScalarWebAPI_ServiceType').text
+        url = REXML::XPath.first(element, 'av:X_ScalarWebAPI_ActionList_URL').text
         @api_url_hash[type.to_sym] = url
       end
     end

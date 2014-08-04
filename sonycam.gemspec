@@ -13,5 +13,4 @@ Gem::Specification.new do |s|
   s.executables = 'sonycam'
   s.homepage    = 'https://github.com/tonytonyjan/sonycam'
   s.add_runtime_dependency 'thor'
-  s.add_runtime_dependency 'nokogiri'
 end
