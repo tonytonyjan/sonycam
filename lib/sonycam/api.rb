@@ -16,7 +16,7 @@ module Sonycam
         error_code, error_message = ret['error']
         raise Sonycam::Error.new_from_code(error_code), error_message
       else
-        ret
+        ret['result']
       end
     end
   end

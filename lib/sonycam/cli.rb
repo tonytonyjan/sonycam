@@ -46,7 +46,7 @@ module Sonycam
      \x5$ sonycam api actZoom in start
     LONGDESC
     def api method, *params
-      jj api_client.request(method, *params)
+      puts api_client.request(method, *params).to_json
     end
 
     desc 'liveview', 'Start liveview and output to STDOUT, it should be used with pipe'
