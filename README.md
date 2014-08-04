@@ -4,7 +4,17 @@ A Sony Camera Remote API wrapper.
 
 ## Installation
 
-    gem install sonycam
+    $ gem install sonycam
+
+## CLI Usage
+
+    $ sonycam api actTakePicture
+
+The command above will prints the result as JSON format, you can process it with pipe, for example:
+
+    $ sonycam api actTakePicture | ruby -rjson -e "puts JSON.parse(ARGF.read).first"
+
+The best way to learn sonycam CLI is make use of `sonycam help` command.
 
 ## Usage
 
@@ -47,7 +57,7 @@ api_client.request :actBoom
 # => Sonycam::Error::NoSuchMethod: actBoom
 ```
 
-### Liveview
+## Livestream
 
 ```ruby
 Liveview.stream(liveview_url) do |packet|
@@ -55,13 +65,11 @@ Liveview.stream(liveview_url) do |packet|
 end
 ```
 
-For detail, read `PACKET.md` and `lib/sonycam/packet.rb`.
+For detail, read `PACKET.md`, `lib/sonycam/packet.rb` and `examples/server.rb`.
 
-## CLI Examples
+### CLI Example
 
-The best way to learn sonycam CLI is make use of `sonycam help` command.
-
-### Livestream
+`sonycam liveview` will print JPEG data stream to STDOUT, it can be easily used in pipe with commands such as `ffmpeg`, for example:
 
 Record to mp4:
 
@@ -71,5 +79,5 @@ Record to mp4:
 ffserver Stream:
 
     $ ffserver -f examples/ffserver.conf
-    $ sonycam liveview | ffmpeg -r 30 -f image2pipe  -c mjpeg -i pipe:0 -codec copy http://127.0.0.1:8080/feed1.ffm
+    $ sonycam liveview | ffmpeg -f image2pipe  -c mjpeg -i pipe:0 -codec copy http://127.0.0.1:8080/feed1.ffm
     $ open examples/index.html
