@@ -14,7 +14,7 @@ module Sonycam
       ret = JSON.parse(@http.request_post(@uri.path, json).body)
       if ret['error']
         error_code, error_message = ret['error']
-        raise Sonycam::Error.new_from_code(error_code), error_message
+        raise Sonycam::Error.make(error_code), error_message
       else
         ret['result']
       end

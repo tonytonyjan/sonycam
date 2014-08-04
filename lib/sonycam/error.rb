@@ -34,7 +34,7 @@ module Sonycam
       const_set error_name, Class.new(StandardError)
     end
 
-    def self.new_from_code code
+    def self.make code
       const_get(MAPPING[code])
     end
   end
