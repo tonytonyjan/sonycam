@@ -30,7 +30,7 @@ module Sonycam
     $ sonycam list act
     LONGDESC
     def list query = nil
-      apis = api_client.request(:getAvailableApiList)['result'].first
+      apis = api_client.request(:getAvailableApiList).first
       apis.select!{|method| method =~ /#{query}/i } if query
       puts apis
     end
@@ -51,7 +51,7 @@ module Sonycam
 
     desc 'liveview', 'Start liveview and output to STDOUT, it should be used with pipe'
     def liveview
-      liveview_url = api_client.request('startLiveview')['result'][0]
+      liveview_url = api_client.request('startLiveview').first
       Liveview.stream(liveview_url) do |packet|
         puts packet[:payload_data][:jpeg_data]
       end
