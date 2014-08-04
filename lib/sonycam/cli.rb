@@ -36,6 +36,15 @@ module Sonycam
     end
 
     desc 'api method [PARAMETER ...]', 'Send API request'
+    long_desc <<-LONGDESC
+    Send a camera API request. Use `sonycam list` to see all available methods.
+
+     Take a picture:
+     \x5$ sonycam api actTakePicture
+
+     Zoom in:
+     \x5$ sonycam api actZoom in start
+    LONGDESC
     def api method, *params
       jj api_client.request(method, *params)
     end
