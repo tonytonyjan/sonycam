@@ -13,9 +13,9 @@ If you've already known the API URL:
 ```ruby
 require 'sonycam'
 api = Sonycam::API.new "http://10.0.0.1:10000/sony/camera"
-api_client.request :actTakePicture
+api.request :actTakePicture
 # => [["http://10.0.0.1:60152/pict130107_1832180000.JPG?%211234%21http%2dget%3a%2a%3aimage%2fjpeg%3a%2a%21%21%21%21%21"]]
-api_client.request :actZoom, :in, :start
+api.request :actZoom, :in, :start
 # => 0
 ```
 
