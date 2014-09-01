@@ -26,7 +26,7 @@ module Sonycam
       end
 
       if action_list_url = @api_url_hash[type] then "#{action_list_url}/#{type}"
-      else raise "Can't not find service type \"#{type}\"."
+      else raise "Can not find service type \"#{type}\"."
       end
     end
   end
