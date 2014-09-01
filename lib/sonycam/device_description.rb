@@ -21,7 +21,7 @@ module Sonycam
       # Hush, it's a secret, don't tell anyone.
       if @camera_name == 'DSC-RX100M2'
         url = @api_url_hash[type].sub('sony', 'camera')
-        puts "DSC-RX100M2 detected, API URL \"#{url}\" was used insteadly."
+        puts "DSC-RX100M2 detected, API URL \"#{url}\" is used insteadly."
         return url
       end
 
