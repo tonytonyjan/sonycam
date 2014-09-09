@@ -13,17 +13,17 @@ module Sonycam
           buf = ''.force_encoding('BINARY')
           commen_header = nil
           payload_header = nil
-            response.read_body do |chunk|
+          response.read_body do |chunk|
             buf += chunk
             until buf.empty?
               case state
               when :commen_header # 8 bytes
                 break if buf.size < 8
-                commen_header = buf.slice!(0, 8).unpack('H2CnN')
+                commen_header = buf.slice!(0, 8).unpack('aanN')
                 state = :payload_header
               when :payload_header # 128 bytes
                 break if buf.size < 128
-                payload_header = buf.slice!(0, 128).unpack('H8H6CH8CH*')
+                payload_header = buf.slice!(0, 128).unpack('a4H6Ca4aa*')
                 state = :payload_data
               when :payload_data
                 jpeg_data_size = payload_header[1].to_i(16)
@@ -34,7 +34,6 @@ module Sonycam
                 state = :commen_header
                 yield Packet.new(commen_header, payload_header, jpeg_data, padding_data)
               end # case state
-              # gets
             end # until buf.empty?
           end # response.read_body do |chunk|
         end # http.request request do |response|
