@@ -76,3 +76,11 @@ RSpec.configure do |config|
   end
 =end
 end
+
+def fixture_path path = ''
+  File.join(File.expand_path('../fixtures', __FILE__), path)
+end
+
+def fixture_file path, &block
+  open fixture_path(path), &block
+end
